@@ -14,7 +14,8 @@ public class GetJSON {
     /**
      * Sends a GET request to the exchange rate API to obtain currency rate data and store it in a String.
      */
-    public static void getJSON() {
+    public static String getJSON() {
+        String json = "";
         try {
             URL url = new URL("https://api.exchangeratesapi.io/latest?base=USD");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -28,11 +29,13 @@ public class GetJSON {
             }
             in.close();
 
-            System.out.println(content);
+            json = content.toString();
+            System.out.println(json);
         } catch (MalformedURLException e) {
             System.out.println("Invalid URL");
         } catch (IOException e) {
             System.out.println("Connection to API could not be established");
         }
+        return json;
     }
 }
