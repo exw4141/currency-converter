@@ -88,7 +88,7 @@ public class CurrencyConverter implements java.io.Serializable {
      */
     private void updateCurrency() {
         if (this.storedBase == null || this.storedDate == null || this.storedRates == null ||
-                LocalDateTime.now().isAfter(this.updateDateTime) && !(this.checkIfWeekend())) {
+                LocalDateTime.now().isAfter(this.updateDateTime)) {
             String json = GetJSON.getJSON();
             this.storeCurrency(json);
             this.justUpdated = true;
@@ -124,18 +124,6 @@ public class CurrencyConverter implements java.io.Serializable {
         Gson gson = new Gson();
         return gson.fromJson(json, Currency.class);
     }
-
-    /**
-     * Checks if the current day is a weekend or not.
-     * The foreign exchange rate API updates its rates on working days so there is not need to update the converter's
-     * state on weekends.
-     * @return True or false depending on if the current day is a weekend or not
-     */
-    private boolean checkIfWeekend() {
-        int dayOfWeek = LocalDateTime.now().get(ChronoField.DAY_OF_WEEK);
-        return dayOfWeek == 6 || dayOfWeek == 7;
-    }
-
 
     /**
      * Prints the names of all currencies supported by the foreign currency exchange rate API
