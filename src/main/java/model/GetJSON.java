@@ -1,3 +1,5 @@
+package model;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,12 +11,12 @@ import java.net.URL;
  * GetJSON connects to an exchange rate API to obtain currency rate data.
  * It is currently defaulted to retrieve rates relative to the U.S. dollar.
  */
-public class GetJSON {
+class GetJSON {
 
     /**
      * Sends a GET request to the exchange rate API to obtain currency rate data and store it in a String.
      */
-    public static String getJSON() {
+    static String getJSON() {
         String json = "";
         try {
             URL url = new URL("https://api.exchangeratesapi.io/latest?base=USD");
