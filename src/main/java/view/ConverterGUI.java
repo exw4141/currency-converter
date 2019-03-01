@@ -13,6 +13,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
@@ -83,6 +85,14 @@ public class ConverterGUI extends Application {
         Label convertLabel = new Label("Amount to convert: ");
         root.add(convertLabel, 0, 1);
 
+        this.amount.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ENTER) {
+                    attemptConversion();
+                }
+            }
+        });
         root.add(this.amount, 1, 1);
 
         Label currencyLabel = new Label("Currency to convert to: ");
@@ -96,19 +106,7 @@ public class ConverterGUI extends Application {
         convertButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                try {
-                    BigDecimal amountToConvert = getAmount();
-
-                    String selectedCurrency = getSelectedCurrency();
-                    BigDecimal rate = controller.getCurrencyRate(selectedCurrency);
-
-                    BigDecimal newAmount = controller.convert(amountToConvert, rate);
-                    setNewAmount(newAmount);
-                    setErrorMessage("");
-                }
-                catch (NumberFormatException e) {
-                    setErrorMessage("The inputted value is not able to be converted");
-                }
+                attemptConversion();
             }
         });
         root.add(convertButton, 0, 3);
@@ -122,6 +120,22 @@ public class ConverterGUI extends Application {
         primaryStage.setTitle("Currency Converter");
         primaryStage.setScene(new Scene(root, 550, 500));
         primaryStage.show();
+    }
+
+    private void attemptConversion() {
+        try {
+            BigDecimal amountToConvert = getAmount();
+
+            String selectedCurrency = getSelectedCurrency();
+            BigDecimal rate = controller.getCurrencyRate(selectedCurrency);
+
+            BigDecimal newAmount = controller.convert(amountToConvert, rate);
+            setNewAmount(newAmount);
+            setErrorMessage("");
+        }
+        catch (NumberFormatException e) {
+            setErrorMessage("The inputted value is not able to be converted");
+        }
     }
 
     private BigDecimal getAmount() {
