@@ -67,6 +67,9 @@ public class StoredCurrency implements Serializable {
         if (this.storedDate.get(ChronoField.DAY_OF_WEEK) == 5) {
             this.updateDateTime = this.storedDate.plusDays(3).plusHours(10);
         }
+        else if (this.storedDate.get(ChronoField.DAY_OF_WEEK) == 6) {
+            this.updateDateTime = this.storedDate.plusDays(2).plusHours(10);
+        }
         else {
             this.updateDateTime = this.storedDate.plusDays(1).plusHours(10);
         }
